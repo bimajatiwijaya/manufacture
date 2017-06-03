@@ -10,7 +10,7 @@ This module creates in BoM a new field to add notes
 Usage
 =====
 
-* Go to Manufacturing > Products > Bill of Materials
+* Go to Manufacturing > Master Data > Bill of Materials
 * Edit an existing BoM and fill in the Notes field on tab Notes
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
@@ -34,6 +34,7 @@ Contributors
 * Oihane Crucelaegui <oihanecrucelaegi@avanzosc.es>
 * Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
 * Ana Juaristi <anajuaristi@avanzosc.es>
+* Bima Jati Wijaya <bimajatiwijaya@gmail.com>
 
 Maintainer
 ----------
