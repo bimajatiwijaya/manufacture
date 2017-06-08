@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-# Copyright 2014 <alex.comba@agilebg.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from odoo import api, models, fields
-
-
-class MrpProduction(models.Model):
-    _inherit = 'mrp.production'
-
-    property_ids = fields.Many2many('mrp.property',
-                                    'mrp_production_property_rel',
-                                    'production_id', 'property_id',
-                                    string='Properties')
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+from odoo import api, fields, models
 
 
 class ProcurementOrder(models.Model):
-    _inherit = "procurement.order"
+    _inherit = 'procurement.order'
+
+    property_ids = fields.Many2many('mrp.property',
+                                    'procurement_property_rel',
+                                    'procurement_id', 'property_id',
+                                    string='Properties')
+
+    # check_bom_exists XXX
+    def _prepare_mo_vals(self, bom):
+        res = super(ProcurementOrder, self)._prepare_mo_vals(bom)
+        return res
 
     @api.multi
     def make_mo(self):

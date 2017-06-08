@@ -16,7 +16,7 @@ from the related procurement order.
         'sale_mrp',
     ],
     'data': [
-        'mrp_view.xml',
+        'views/mrp_view.xml',
     ],
     'test': [
         'test/mrp_production_properties.yml',

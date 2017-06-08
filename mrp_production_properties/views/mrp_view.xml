@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mrp_production_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='availability']" position="after">
+                        <field name="property_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- SALE -->
+        <record id="view_order_form_inherit_sale_mrp" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.stock.mrp</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree//field[@name='tax_id']" position="after">
+                    <field name="property_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- MRP BOM mrp_bom_form_view -->
+
+        <record id="mrp_bom_property_form_view" model="ir.ui.view">
+            <field name="name">mrp.bom.property.form.view</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+             <notebook position="inside">
+                 <page string="Property">
+                    <field name="property_ids" widget="many2many_tags"/>
+                </page>
+            </notebook>
+            </field>
+        </record>
+
+
+        <!-- procurement -->
+        <record id="view_procurement_form_inherit" model="ir.ui.view">
+            <field name="name">procurement.order.form.inherit</field>
+            <field name="model">procurement.order</field>
+            <field name="inherit_id" ref="procurement.procurement_form_view"/>
+            <field name="arch" type="xml">
+            <data>
+                <field name="origin" position="before">
+                    <field name="bom_id" domain="[('product_id','=',product_id)]"/>
+                    <field name="production_id" attrs="{'invisible': [('production_id','=',False)]}"/>
+                </field>
+                <field name="origin" position="after">
+                    <field name="property_ids" widget="many2many_tags"/>
+                </field>
+               </data>
+            </field>
+        </record>
+    </data>
+</odoo>
