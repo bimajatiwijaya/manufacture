@@ -1,24 +1,17 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-from odoo import api, fields, models
-#_bom_explode XXX
+# Copyright 2017 Bima Wijaya
+from odoo import fields, models
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    # v10
-    # def _prepare_procurement_from_move(self, move):
     def _prepare_procurement_from_move(self):
         res = super(StockMove, self)._prepare_procurement_from_move()
         if res and self.procurement_id and self.procurement_id.property_ids:
             res['property_ids'] = [(6, 0,
                                     self.procurement_id.property_ids.ids)]
         return res
-
-    # v10
-    # @api.model
-    # def _action_explode(self, move):
 
     def action_explode(self):
         """ Explodes pickings.
@@ -27,4 +20,4 @@ class StockMove(models.Model):
         """
         property_ids = self.procurement_id.sale_line_id.property_ids.ids
         return super(StockMove, self.with_context(
-            property_ids=property_ids)).action_explode()
+            property_ids=[p.id for p in property_ids])).action_explode()

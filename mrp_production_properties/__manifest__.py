@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     'name': "Mrp Production Properties",
-    'version': '0.1',
+    'version': '10.0.1.0.0',
     'category': 'Manufacturing',
     'description': """
 This module adds the properties to the manufacturing order copying them
@@ -16,6 +16,7 @@ from the related procurement order.
         'sale_mrp',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/mrp_view.xml',
     ],
     'test': [

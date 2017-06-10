@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Copyright 2017 Bima Wijaya
 from odoo import api, fields, models
-from odoo.tools import float_compare
 
 
 class SaleOrderLine(models.Model):

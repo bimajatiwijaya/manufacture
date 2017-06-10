@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Copyright 2017 Bima Wijaya
 from odoo import api, fields, models
 
 
@@ -11,9 +11,11 @@ class ProcurementOrder(models.Model):
                                     'procurement_id', 'property_id',
                                     string='Properties')
 
-    # check_bom_exists XXX
-    def _prepare_mo_vals(self, bom):
-        res = super(ProcurementOrder, self)._prepare_mo_vals(bom)
+    @api.multi
+    def _get_matching_bom(self):
+        res = super(ProcurementOrder, self.with_context(
+            property_ids=[p.id for p in self.property_ids])).\
+            _get_matching_bom()
         return res
 
     @api.multi

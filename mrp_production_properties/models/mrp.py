@@ -45,13 +45,38 @@ class MrpBom(models.Model):
     @api.model
     def _bom_find(self, product_tmpl=None, product=None, picking_type=None,
                   company_id=False):
-        res = super(MrpBom, self)._bom_find(product_tmpl, product,
-                                            picking_type, company_id)
-        return res
-    # _bom_explode XXX
-    def explode(self, product, quantity, picking_type=False):
-        boms_done, lines_done = super(MrpBom, self).explode(product, quantity, picking_type)
-        return boms_done, lines_done
+        property_ids = self._context.get('property_ids')
+        if property_ids:
+            if product:
+                if not product_tmpl:
+                    product_tmpl = product.product_tmpl_id
+                domain = ['|', ('product_id', '=', product.id), '&',
+                          ('product_id', '=', False),
+                          ('product_tmpl_id', '=', product_tmpl.id)]
+            elif product_tmpl:
+                domain = [('product_tmpl_id', '=', product_tmpl.id)]
+            else:
+                # neither product nor template, makes no sense to search
+                return False
+            if picking_type:
+                domain += ['|', ('picking_type_id', '=', picking_type.id),
+                           ('picking_type_id', '=', False)]
+            if company_id or self.env.context.get('company_id'):
+                domain += [('company_id', '=', company_id or
+                            self.env.context.get('company_id'))]
+
+            bom_ids = self.search(domain, order='sequence, product_id')
+            for bom in bom_ids.sorted(key=lambda p:
+            (p.sequence, p.product_id)):
+                for ctx_p in property_ids:
+                    if ctx_p in [p.id for p in bom.property_ids]:
+                        return bom
+            # Not found BoM with property from procurement return first BoM
+            if bom_ids:
+                return bom_ids[0]
+        else:
+            return super(MrpBom, self)._bom_find(product_tmpl, product,
+                                                 picking_type, company_id)
 
 
 class MrpProduction(models.Model):
