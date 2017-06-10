@@ -19,8 +19,5 @@ from the related procurement order.
         'security/ir.model.access.csv',
         'views/mrp_view.xml',
     ],
-    'test': [
-        'test/mrp_production_properties.yml',
-    ],
     'installable': True,
 }

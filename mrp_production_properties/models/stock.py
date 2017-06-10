@@ -20,4 +20,4 @@ class StockMove(models.Model):
         """
         property_ids = self.procurement_id.sale_line_id.property_ids.ids
         return super(StockMove, self.with_context(
-            property_ids=[p.id for p in property_ids])).action_explode()
+            property_ids=property_ids)).action_explode()
